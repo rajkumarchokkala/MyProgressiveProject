@@ -1,0 +1,29 @@
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+        <label for="productId"> Product ID:</label>
+        <input type="text" id="productId" formControlName="productId" />
+    </div>
+    <div class="form-group">
+        <label for="warehouseId"> Warehouse ID:</label>
+        <input type="number" id="warehouseId" formControlName="warehouseId" />
+    </div>
+    <div class="form-group">
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" formControlName="productName" />
+    </div>
+    <div class="form-group">
+        <label for="productDesciption">Product Description:</label>
+        <input type="text" id="productDesciption" formControlName="productDesciption" />
+    </div>
+    <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" formControlName="quantity" />
+    </div>
+    <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" id="price" formControlName="price" />
+    </div>
+  
+    <button type="submit" [disabled]="!productForm.valid">Submit</button>
+  </form>
