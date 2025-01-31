@@ -1,21 +1,42 @@
-<div>
-  <form [formGroup]="warehouseForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="warehouseForm" (ngSubmit)="onSubmit()" class="user-form">
 
-      <label for="warehouseId">Warehouse ID:</label>
-      <input type="number" id="warehouseId" formControlName="warehouseId" />
-
+  <div class="form-group">
       <label for="supplierId">Supplier ID:</label>
-      <input type="number" id="supplierId" formControlName="supplierId" />
-
+      <input type="number" id="supplierId" formControlName="supplierId" class="form-control" />
+      <div *ngIf="warehouseForm.get('supplierId')?.invalid && warehouseForm.get('supplierId')?.touched"
+              class="error">
+              <small *ngIf="warehouseForm.get('supplierId')?.hasError('required')">Supplier Id is required.</small>
+          </div>
+  </div>
+  <div class="form-group">
       <label for="warehouseName">Warehouse Name:</label>
-      <input type="text" id="warehouseName" formControlName="warehouseName" />
-
+      <input type="text" id="warehouseName" formControlName="warehouseName" class="form-control" />
+      <div *ngIf="warehouseForm.get('warehouseName')?.invalid && warehouseForm.get('warehouseName')?.touched"
+      class="error">
+      <small *ngIf="warehouseForm.get('warehouseName')?.hasError('required')">Warehouse name is required.</small>
+  </div>
+  </div>
+  <div class="form-group">
       <label for="location">Location:</label>
-      <input type="text" id="location" formControlName="location" />
-
+      <input type="text" id="location" formControlName="location" class="form-control" />
+  </div>
+  <div class="form-group">
       <label for="capacity">Capacity:</label>
-      <input type="number" id="capacity" formControlName="capacity" />
-
-      <button type="submit">Submit</button>
-  </form>
-</div>
+      <input type="number" id="capacity" formControlName="capacity" class="form-control" />
+      <div *ngIf="warehouseForm.get('capacity')?.invalid && warehouseForm.get('capacity')?.touched" class="error">
+          <small *ngIf="warehouseForm.get('capacity')?.hasError('required')">Capacity is
+              required.</small>
+          <small *ngIf="warehouseForm.get('capacity')?.hasError('min')">Capacity be negative.</small>
+      </div>
+  </div>
+  <button type="submit" class="btn-submit">Submit</button>
+  <ng-container>
+      <div *ngIf="successMessage" class="success">
+          <p>{{ successMessage }}</p>
+        </div>
+      
+        <div *ngIf="errorMessage" class="error">
+          <p>{{ errorMessage }}</p>
+        </div>
+  </ng-container>
+</form>

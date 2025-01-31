@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Warehouse } from '../../types/Warehouse';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Supplier } from "../../types/Supplier";
 
 
 @Component({
@@ -10,27 +11,46 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class WarehouseComponent implements OnInit {
     warehouseForm!: FormGroup;
-    warehouse: Warehouse | undefined;
-    formBuilder!: FormBuilder;
-    validateWarehouseId: any;
-    validateNonNegativeCapacity: any;
+    successMessage: string | null = null;
+    errorMessage: string | null = null;
 
     constructor(private fb: FormBuilder) { }
 
     ngOnInit(): void {
-        // No need to fetch data from a service since we are using hardcoded data
         this.warehouseForm = this.fb.group({
-            warehouseId: [null],
-            supplierId: [null, [Validators.required, Validators.min(1)]],
+            supplierId: ["", [Validators.required]],
             warehouseName: ["", [Validators.required]],
             location: [""],
             capacity: ["", [Validators.required, Validators.min(0)]],
         });
-        this.warehouse = new Warehouse(1, "12", "Flamingo", "Nevada", 1000);
-
     }
 
-    onSubmit() {
-        throw new Error('Method not implemented.');
-    }
+
+    onSubmit(): void {
+        if (this.warehouseForm.valid) {
+          // Simulate backend call and handle error messages
+          const backendError = this.simulateBackendError();
+          if (backendError) {
+            this.errorMessage = backendError;
+            this.successMessage = null;
+          } else {
+            this.successMessage = 'Warehouse has been successfully created!';
+            this.errorMessage = null;
+            console.log('Warehouse Created: ', this.warehouseForm.value);
+            this.warehouseForm.reset();
+          }
+        } else {
+          this.errorMessage = 'Please fill out all required fields correctly.';
+          this.successMessage = null;
+        }
+      }
+    
+      simulateBackendError(): string | null {
+        // Simulate a backend error based on some condition
+        const teamName = this.warehouseForm.get('warehouseName')?.value;
+        if (teamName === 'warehouseName') {
+          return 'Warehouse name already exists.';
+        }
+        return null;
+      }
 }
